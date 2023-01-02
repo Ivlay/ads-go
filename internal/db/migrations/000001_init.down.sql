@@ -1,0 +1,2 @@
+DROP TABLE IF EXISTS advertisements;
+DROP TABLE IF EXISTS users;
