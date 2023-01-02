@@ -15,11 +15,20 @@ func NewAdsPg(db *sqlx.DB) *AdsPg {
 	return &AdsPg{db: db}
 }
 
-func (r *AdsPg) GetAll() ([]adsgo.Advertisement, error) {
+func (r *AdsPg) GetAll(order, orderBy string) ([]adsgo.Advertisement, error) {
 	var aa []adsgo.Advertisement
+	if order == "" {
+		order = "desc"
+	}
+
+	if orderBy == "" {
+		orderBy = "created_at"
+	}
+
 	query := fmt.Sprintf(`
 		select * from %s
-	`, advertisementsTable)
+		order by %s %s
+	`, advertisementsTable, orderBy, order)
 
 	err := r.db.Select(&aa, query)
 

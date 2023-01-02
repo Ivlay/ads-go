@@ -17,8 +17,8 @@ func (s *AdsService) Create(adsInput adsgo.Advertisement) (int, error) {
 	return s.repo.Create(adsInput)
 }
 
-func (s *AdsService) GetAll() ([]adsgo.Advertisement, error) {
-	return s.repo.GetAll()
+func (s *AdsService) GetAll(order, orderBy string) ([]adsgo.Advertisement, error) {
+	return s.repo.GetAll(order, orderBy)
 }
 
 func (s *AdsService) GetById(id int) (adsgo.Advertisement, error) {

@@ -16,7 +16,7 @@ type User interface {
 }
 
 type Ads interface {
-	GetAll() ([]adsgo.Advertisement, error)
+	GetAll(order, orderBy string) ([]adsgo.Advertisement, error)
 	GetById(id int) (adsgo.Advertisement, error)
 	Create(adsInput adsgo.Advertisement) (int, error)
 	Delete(id, userId int) error

@@ -21,15 +21,16 @@ func NewAdsHandler(services *service.Service) *Ads {
 }
 
 func (h *Ads) GetAll(c *gin.Context) {
-	adsList, err := h.services.Ads.GetAll()
+	order := c.Query("order")
+	orderBy := c.Query("orderBy")
+
+	adsList, err := h.services.Ads.GetAll(order, orderBy)
 	if err != nil {
 		newErrorResponse(c, http.StatusInternalServerError, err.Error())
 		return
 	}
 
-	c.JSON(http.StatusOK, gin.H{
-		"data": adsList,
-	})
+	c.JSON(http.StatusOK, adsList)
 }
 
 func (h *Ads) GetById(c *gin.Context) {
@@ -50,9 +51,7 @@ func (h *Ads) GetById(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusOK, gin.H{
-		"data": ads,
-	})
+	c.JSON(http.StatusOK, ads)
 }
 
 func (h *Ads) Create(c *gin.Context) {
@@ -77,9 +76,7 @@ func (h *Ads) Create(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusCreated, gin.H{
-		"data": ads,
-	})
+	c.JSON(http.StatusCreated, ads)
 }
 
 func (h *Ads) Delete(c *gin.Context) {
