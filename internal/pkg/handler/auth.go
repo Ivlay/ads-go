@@ -68,7 +68,7 @@ func (h *Auth) SingIn(c *gin.Context) {
 	if err != nil {
 		switch err {
 		case sql.ErrNoRows:
-			newErrorResponse(c, http.StatusNotFound, "User not found")
+			newErrorResponse(c, http.StatusBadRequest, "Wrong credentials")
 		default:
 			newErrorResponse(c, http.StatusInternalServerError, err.Error())
 		}

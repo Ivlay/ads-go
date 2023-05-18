@@ -10,6 +10,7 @@ type User interface {
 	GenerateToken(claim int) (string, error)
 	ParseToken(accessToken string) (int, error)
 	Login(input adsgo.LoginInput) (adsgo.User, error)
+	GetById(id int) (adsgo.User, error)
 }
 
 type Ads interface {

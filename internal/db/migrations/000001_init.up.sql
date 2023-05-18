@@ -16,3 +16,13 @@ CREATE TABLE IF NOT EXISTS advertisements
   created_at  timestamp NOT NULL DEFAULT NOW(),
   updated_at  timestamp NOT NULL DEFAULT NOW()
 );
+
+CREATE TABLE IF NOT EXISTS comments
+(
+  id         serial not null unique,
+  message    varchar(255) not null,
+  user_id    int references users(id) not null,
+  ads_id     int references advertisements(id) on delete cascade not null,
+  created_at timestamp NOT NULL DEFAULT NOW(),
+  updated_at timestamp NOT NULL DEFAULT NOW()
+);

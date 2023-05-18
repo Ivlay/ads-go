@@ -30,6 +30,10 @@ func (s *UserService) Create(user adsgo.User) (adsgo.User, error) {
 	return s.repo.CreateUser(user)
 }
 
+func (s *UserService) GetById(id int) (adsgo.User, error) {
+	return s.repo.GetById(id)
+}
+
 func (s *UserService) GenerateToken(claim int) (string, error) {
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, &tokenClaims{
 		jwt.StandardClaims{

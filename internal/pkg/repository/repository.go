@@ -13,6 +13,13 @@ const (
 type User interface {
 	CreateUser(user adsgo.User) (adsgo.User, error)
 	Login(input adsgo.LoginInput) (adsgo.User, error)
+	GetById(id int) (adsgo.User, error)
+}
+
+type Comments interface {
+	CreateComment() (adsgo.Comments, error)
+	DeleteComment(id int) error
+	GetCommentsByAdsId(id int) ([]adsgo.Comments, error)
 }
 
 type Ads interface {
@@ -25,11 +32,13 @@ type Ads interface {
 type Repository struct {
 	User
 	Ads
+	Comments
 }
 
 func New(db *sqlx.DB) *Repository {
 	return &Repository{
-		User: NewUserPG(db),
-		Ads:  NewAdsPg(db),
+		User:     NewUserPG(db),
+		Ads:      NewAdsPg(db),
+		Comments: NewCommentsPg(db),
 	}
 }

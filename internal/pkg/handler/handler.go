@@ -17,6 +17,10 @@ type AdsHandler interface {
 	Delete(c *gin.Context)
 }
 
+type UserHandler interface {
+	GetById(c *gin.Context)
+}
+
 type MiddlewareHandler interface {
 	UserIdentify(c *gin.Context)
 }
@@ -25,6 +29,7 @@ type Handler struct {
 	AuthHandler
 	AdsHandler
 	MiddlewareHandler
+	UserHandler
 }
 
 func New(service *service.Service) *Handler {
@@ -32,11 +37,14 @@ func New(service *service.Service) *Handler {
 		AuthHandler:       NewAuthHandler(service),
 		AdsHandler:        NewAdsHandler(service),
 		MiddlewareHandler: NewMiddleware(service),
+		UserHandler:       NewUserHandler(service),
 	}
 }
 
 func (h *Handler) InitRoutes() *gin.Engine {
 	router := gin.New()
+
+	router.Use(CORSMiddleware())
 
 	api := router.Group("/api")
 	{
@@ -52,6 +60,11 @@ func (h *Handler) InitRoutes() *gin.Engine {
 			ads.GET("/:id", h.AdsHandler.GetById)
 			ads.POST("", h.MiddlewareHandler.UserIdentify, h.AdsHandler.Create)
 			ads.DELETE("/:id", h.MiddlewareHandler.UserIdentify, h.AdsHandler.Delete)
+		}
+
+		user := v1.Group("/user")
+		{
+			user.GET("/:id", h.MiddlewareHandler.UserIdentify, h.UserHandler.GetById)
 		}
 
 	}

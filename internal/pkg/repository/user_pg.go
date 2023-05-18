@@ -31,6 +31,22 @@ func (r *UserPg) CreateUser(inputUser adsgo.User) (adsgo.User, error) {
 	return user, nil
 }
 
+func (r *UserPg) GetById(id int) (adsgo.User, error) {
+	var user adsgo.User
+
+	query := fmt.Sprintf(`
+		select * from %s
+		where id = $1
+	`, usersTable)
+
+	err := r.db.Get(&user, query, id)
+	if err != nil {
+		return user, err
+	}
+
+	return user, nil
+}
+
 func (r *UserPg) Login(input adsgo.LoginInput) (adsgo.User, error) {
 	var user adsgo.User
 
