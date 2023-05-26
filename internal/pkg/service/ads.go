@@ -21,6 +21,10 @@ func (s *AdsService) GetAll(order, orderBy string) ([]adsgo.Advertisement, error
 	return s.repo.GetAll(order, orderBy)
 }
 
+func (s *AdsService) GetByUserId(id int, order, orderBy string) ([]adsgo.Advertisement, error) {
+	return s.repo.GetByUserId(id, order, orderBy)
+}
+
 func (s *AdsService) GetById(id int) (adsgo.Advertisement, error) {
 	return s.repo.GetById(id)
 }

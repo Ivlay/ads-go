@@ -33,6 +33,25 @@ func (h *Ads) GetAll(c *gin.Context) {
 	c.JSON(http.StatusOK, adsList)
 }
 
+func (h *Ads) GetByUserId(c *gin.Context) {
+	order := c.Query("order")
+	orderBy := c.Query("orderBy")
+
+	userId, err := getUserId(c)
+	if err != nil {
+		newErrorResponse(c, http.StatusInternalServerError, err.Error())
+		return
+	}
+
+	adsList, err := h.services.Ads.GetByUserId(userId, order, orderBy)
+	if err != nil {
+		newErrorResponse(c, http.StatusInternalServerError, err.Error())
+		return
+	}
+
+	c.JSON(http.StatusOK, adsList)
+}
+
 func (h *Ads) GetById(c *gin.Context) {
 	id, err := strconv.Atoi(c.Param("id"))
 	if err != nil {

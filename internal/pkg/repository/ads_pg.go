@@ -2,6 +2,7 @@ package repository
 
 import (
 	"fmt"
+	"strings"
 
 	adsgo "github.com/Ivlay/ads-go"
 	"github.com/jmoiron/sqlx"
@@ -50,6 +51,31 @@ func (r *AdsPg) GetById(id int) (adsgo.Advertisement, error) {
 	}
 
 	return ads, nil
+}
+
+func (r *AdsPg) GetByUserId(id int, order, orderBy string) ([]adsgo.Advertisement, error) {
+	var aa []adsgo.Advertisement
+
+	if strings.TrimSpace(order) == "" {
+		order = "desc"
+	}
+
+	if strings.TrimSpace(orderBy) == "" {
+		orderBy = "created_at"
+	}
+
+	query := fmt.Sprintf(`
+		select * from %s
+		where user_id = $1
+		order by %s %s
+	`, advertisementsTable, orderBy, order)
+
+	err := r.db.Select(&aa, query, id)
+	if err != nil {
+		return aa, err
+	}
+
+	return aa, err
 }
 
 func (r *AdsPg) Create(adsInput adsgo.Advertisement) (int, error) {

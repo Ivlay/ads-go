@@ -27,6 +27,7 @@ type Ads interface {
 	GetById(id int) (adsgo.Advertisement, error)
 	Create(adsInput adsgo.Advertisement) (int, error)
 	Delete(id, userId int) error
+	GetByUserId(id int, order, orderBy string) ([]adsgo.Advertisement, error)
 }
 
 type Repository struct {

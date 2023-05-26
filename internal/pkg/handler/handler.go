@@ -15,6 +15,7 @@ type AdsHandler interface {
 	GetById(c *gin.Context)
 	Create(c *gin.Context)
 	Delete(c *gin.Context)
+	GetByUserId(c *gin.Context)
 }
 
 type UserHandler interface {
@@ -60,6 +61,7 @@ func (h *Handler) InitRoutes() *gin.Engine {
 			ads.GET("/:id", h.AdsHandler.GetById)
 			ads.POST("", h.MiddlewareHandler.UserIdentify, h.AdsHandler.Create)
 			ads.DELETE("/:id", h.MiddlewareHandler.UserIdentify, h.AdsHandler.Delete)
+			ads.GET("/my", h.MiddlewareHandler.UserIdentify, h.AdsHandler.GetByUserId)
 		}
 
 		user := v1.Group("/user")
