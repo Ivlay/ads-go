@@ -5,6 +5,7 @@ import (
 
 	adsgo "github.com/Ivlay/ads-go"
 	"github.com/jmoiron/sqlx"
+	"github.com/lib/pq"
 )
 
 type AdsPg struct {
@@ -60,7 +61,7 @@ func (r *AdsPg) Create(adsInput adsgo.Advertisement) (int, error) {
 		returning id
 	`, advertisementsTable)
 
-	row := r.db.QueryRow(query, adsInput.Title, adsInput.Description, adsInput.UserId, adsInput.Images)
+	row := r.db.QueryRow(query, adsInput.Title, adsInput.Description, adsInput.UserId, pq.Array(adsInput.Images))
 	if err := row.Scan(&id); err != nil {
 		return id, err
 	}
