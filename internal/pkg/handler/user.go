@@ -39,3 +39,18 @@ func (h *User) GetById(c *gin.Context) {
 
 	c.JSON(http.StatusOK, user)
 }
+
+func (h *User) Me(c *gin.Context) {
+	userId, err := getUserId(c)
+	if err != nil {
+		newErrorResponse(c, http.StatusInternalServerError, err.Error())
+		return
+	}
+
+	user, err := h.services.User.GetById(userId)
+	if err != nil {
+		newErrorResponse(c, http.StatusInternalServerError, err.Error())
+	}
+
+	c.JSON(http.StatusOK, user)
+}

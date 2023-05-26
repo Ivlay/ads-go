@@ -20,6 +20,7 @@ type AdsHandler interface {
 
 type UserHandler interface {
 	GetById(c *gin.Context)
+	Me(c *gin.Context)
 }
 
 type MiddlewareHandler interface {
@@ -67,6 +68,7 @@ func (h *Handler) InitRoutes() *gin.Engine {
 		user := v1.Group("/user")
 		{
 			user.GET("/:id", h.MiddlewareHandler.UserIdentify, h.UserHandler.GetById)
+			user.GET("/me", h.MiddlewareHandler.UserIdentify, h.UserHandler.Me)
 		}
 
 	}
