@@ -35,7 +35,7 @@ func (r *UserPg) GetById(id int) (adsgo.User, error) {
 	var user adsgo.User
 
 	query := fmt.Sprintf(`
-		select * from %s
+		select id, username, name from %s
 		where id = $1
 	`, usersTable)
 

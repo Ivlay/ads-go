@@ -59,10 +59,10 @@ func (h *Handler) InitRoutes() *gin.Engine {
 		ads := v1.Group("/ads")
 		{
 			ads.GET("", h.AdsHandler.GetAll)
+			ads.GET("/my", h.MiddlewareHandler.UserIdentify, h.AdsHandler.GetByUserId)
 			ads.GET("/:id", h.AdsHandler.GetById)
 			ads.POST("", h.MiddlewareHandler.UserIdentify, h.AdsHandler.Create)
 			ads.DELETE("/:id", h.MiddlewareHandler.UserIdentify, h.AdsHandler.Delete)
-			ads.GET("/my", h.MiddlewareHandler.UserIdentify, h.AdsHandler.GetByUserId)
 		}
 
 		user := v1.Group("/user")
